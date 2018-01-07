@@ -1,0 +1,27 @@
+uniform float4 gAmbientLightColor : register(c0);
+uniform float4 gDirLightInvOrientation : register(c1);
+uniform float4 gDirLightColor : register(c2);
+uniform float4x4 gPointLightPos : register(c3);
+uniform float4x4 gPointLightColor : register(c7);
+
+struct VS_OUTPUT
+{
+	float4 pos : POSITION;
+	float4 color : COLOR0;
+	float2 uv : TEXCOORD0;
+	float3 normal : TEXCOORD1;
+};
+
+sampler DiffuseSampler;
+
+float4 PixelShaderMain(VS_OUTPUT IN) : COLOR
+{
+    float4 color = float4(tex2D(DiffuseSampler, IN.uv).rgb, 1.0);
+	
+	float3 normal = normalize(IN.normal);
+    float diffuse = max(0.0, dot(normal, gDirLightInvOrientation.xyz));
+
+    color.rgb *= (diffuse * gDirLightColor.a * gDirLightColor.rgb);
+    color.rgb += (gAmbientLightColor.rgb * gAmbientLightColor.a);
+	return color;
+}

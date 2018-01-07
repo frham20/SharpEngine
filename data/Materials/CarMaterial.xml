@@ -1,0 +1,7 @@
+<MATERIAL name="CarMaterial">
+	<TEXTURELIST>
+		<TEXTURE name="UV1024" wrap="true"/>
+	</TEXTURELIST>
+	<PIXELSHADER name="Simple"/>
+	<VERTEXSHADER name="Simple"/>
+</MATERIAL>
